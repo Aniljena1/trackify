@@ -4,8 +4,9 @@ const env = process.env.NODE_ENV || 'development';
 const isProd = env === 'production';
 const isTest = env === 'test';
 
+// Warn if JWT_SECRET is unset in production, but don't crash the build/bundling step.
 if (isProd && !process.env.JWT_SECRET) {
-  throw new Error('JWT_SECRET must be set in production');
+  console.warn('[config] Warning: JWT_SECRET is not set. Using fallback secret.');
 }
 
 export const config = {

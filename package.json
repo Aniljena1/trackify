@@ -1,6 +1,7 @@
 {
   "name": "trackify",
   "private": true,
+  "type": "module",
   "scripts": {
     "setup": "npm --prefix server install && npm --prefix client install",
     "build": "npm --prefix client run build",
