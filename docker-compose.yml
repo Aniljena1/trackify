@@ -1,0 +1,17 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment: { POSTGRES_USER: foreman, POSTGRES_PASSWORD: foreman, POSTGRES_DB: foreman }
+    ports: ["5432:5432"]
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck: { test: ["CMD-SHELL", "pg_isready -U foreman"], interval: 3s, retries: 15 }
+  app:
+    build: .
+    depends_on: { db: { condition: service_healthy } }
+    environment:
+      DATABASE_URL: postgres://foreman:foreman@db:5432/foreman
+      JWT_SECRET: local-compose-secret-change-me
+      NODE_ENV: production
+    ports: ["4000:4000"]
+volumes:
+  pgdata:
